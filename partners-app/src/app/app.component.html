@@ -1,0 +1,43 @@
+<header>
+  {{title}}
+</header>
+<div class="container custom-padding">
+  <form [formGroup]="distanceForm" (ngSubmit)="onSubmit()" class="col-sm-9 center mt-5">
+    <div class="row">
+      <div class="form-group col-md-6 input-group mb-3">
+        
+        <div class="input-group-append">
+          <span class="input-group-text" id="basic-addon2">Distance (Km)</span>
+        </div>
+        <input type="number" class="form-control" formControlName="distance" id="distance"  placeholder="Enter a Distance in Km">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" [disabled]="!distanceForm.valid" type="submit">Search</button>
+        </span>
+      </div>
+    </div>    
+  </form>
+  <hr/>
+
+  <div *ngIf="partners.length <= 0">
+    <div class="card">
+      <div class="card-body">
+        There is no partners at this moment!.
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="partners.length > 0">
+    <div class="card" *ngFor="let p of partners">
+      <div class="card-body" >
+        <p class="bold">{{p.organization}}</p>
+        <ul>
+        <li *ngFor="let address of p.offices">{{address.address}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+
+  &copy; Washmen - Hussein Alaeddine
+</footer>

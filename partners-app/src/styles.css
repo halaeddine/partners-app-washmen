@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+html, body{
+    padding:0;
+    margin: 0;
+}
+
+header{
+    height: 50px;
+    background: #e9ecef;
+    text-align: center;
+    font-size: 22px;
+    padding: 10px;
+    font-weight: 400;
+    box-shadow: 1px 1px 5px grey;
+}
+
+footer{
+    height: 50px;
+    background: #e9ecef;
+    box-shadow: 1px -1px 5px grey;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    font-style: italic;
+}
