@@ -6,6 +6,11 @@ const _ = require('lodash');
 const lat = 51.5144636;
 const lon = -0.142571;
 let partners;
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use('/', express.static(process.cwd()+'/partners-app/dist/partners-app'));
+
 fs.readFile('./partners.json', function (err, data) {
     if (err) throw err;
     partners = JSON.parse(data);
@@ -13,7 +18,7 @@ fs.readFile('./partners.json', function (err, data) {
 
 const filteredPartners = [];
 app.get('/', (req,res) => {
-    res.send("app is working");
+    res.sendFile(process.cwd()+"/partners-app/dist/partners-app/index.html")
 });
 
 app.get('/api/partners', (req, res) => {
