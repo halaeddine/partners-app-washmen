@@ -7,11 +7,12 @@ const lat = 51.5144636;
 const lon = -0.142571;
 let partners;
 const bodyParser = require('body-parser');
+const { filter } = require('lodash');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/', express.static(process.cwd()+'/partners-app/dist/partners-app'));
 
-fs.readFile('./partners.json', function (err, data) {
+fs.readFile(process.cwd()+'/partners.json', function (err, data) {
     if (err) throw err;
     partners = JSON.parse(data);
   });
@@ -25,14 +26,29 @@ app.get('/api/partners', (req, res) => {
     let _distance = req.query.distance;
     filteredPartners.splice(0,filteredPartners.length); //empty array;
     let officeIndexes = [];
-    partners.forEach(val => {
-        val.offices.forEach((office, index)=>{
+    let addPartner = true;
+    let filteredIndex = 0;
+    partners.forEach((val, index)=> {
+        addPartner = true;
+        val.offices.forEach((office, _index)=>{
             let fullCoordinates = office.coordinates;
             let objLat = fullCoordinates.split(",")[0];
             let objLon = fullCoordinates.split(",")[1];
             let calculatedDistance = calcDistance(lat, lon, objLat, objLon);
             if(calculatedDistance <= _distance){
-                filteredPartners.push(val);
+                if(addPartner){
+                    filteredIndex++;
+                    addPartner = false;
+                    filteredPartners.push({
+                        id: val.id,
+                        organization: val.organization,
+                        offices: [{address:office.address}]
+                    });
+                }else{
+                    filteredPartners[filteredIndex-1].offices.push({
+                        address:office.address
+                    })
+                }
             }
         })
     });
